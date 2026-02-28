@@ -19,25 +19,53 @@ body {
   text-align: center;
 }
 
-#currentTime {
+#exam {
   font-size: 4vw;
+  color: #00cccc;
   margin-bottom: 20px;
 }
 
-#examTime {
-  font-size: 3vw;
-  margin-bottom: 30px;
-  color: #00cccc;
-}
-
 #countdown {
-  font-size: 6vw;
+  font-size: 7vw;
 }
 </style>
-
 </head>
 <body>
 
-<div id="currentTime"></div>
-<div id="examTime">NEET 2026: May 3, 2026 • 2:00 PM IST</div>
-<div id="countdown">Loading
+<div id="exam">NEET 2026 • May 3, 2026 • 2:00 PM IST</div>
+<div id="countdown">Loading...</div>
+
+<script>
+
+// 2:00 PM IST = 08:30 UTC
+const target = new Date(Date.UTC(2026, 4, 3, 8, 30, 0));
+
+function updateTimer() {
+  const now = new Date();
+  const diff = target - now;
+
+  if (diff <= 0) {
+    document.getElementById("countdown").innerHTML =
+      "00days 00hours 00minutes 00seconds";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("countdown").innerHTML =
+    String(days).padStart(2,'0') + "days " +
+    String(hours).padStart(2,'0') + "hours " +
+    String(minutes).padStart(2,'0') + "minutes " +
+    String(seconds).padStart(2,'0') + "seconds";
+}
+
+setInterval(updateTimer, 1000);
+updateTimer();
+
+</script>
+
+</body>
+</html>
